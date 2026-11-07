@@ -38,5 +38,6 @@ listing link to these URLs.
 
 ## Tide
 
-Tide's pages are kept in the Tide repo, in `appstore/site/tide/`, next to
-the code they describe. Update them there and copy the directory here.
+Tide's pages are kept here, in `tide/`. When a release changes what Tide
+does with data, update `privacy.md` and its effective date before the
+release ships.

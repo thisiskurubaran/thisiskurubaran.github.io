@@ -6,7 +6,7 @@ permalink: /tide/privacy/
 
 # Tide Privacy Policy
 
-Effective 29 October 2026
+Effective 7 November 2026
 {: .meta}
 
 Tide is a code editor with a terminal for iPhone and iPad, made by
@@ -21,7 +21,7 @@ information when you use Tide. If you have questions, email
 - Your projects, settings and credentials stay on your device.
 - Tide only sends data off your device when you use a feature that needs
   it, and only to the place that feature talks to (for example your Git
-  host or a package registry).
+  host, a package registry or the AI provider you choose).
 - The only data that can reach me is a crash report, if you turn crash
   reports on, and an email, if you choose to write to me.
 
@@ -31,12 +31,30 @@ Tide keeps the following on your device, in its own storage:
 
 - **Projects and files** you create, import, clone or open, and
   **snapshots** (automatic copies of a project you can restore).
-- **Settings**: theme, editor options, key bar layout, recent projects and
-  similar preferences.
-- **Credentials**: your Git name, email and access token, and the Remote
-  server address and token, are kept in the iOS Keychain.
-- **Purchase status**: which Tide Pro plan or extensions your Apple Account
-  owns, so they keep working offline.
+- **Settings**: theme, editor options, snippets, key bar layout, recent
+  projects and similar preferences.
+- **Local history**: earlier versions of the files you save, so you can
+  compare and restore them.
+- **Offline docs** you download, and which ones.
+- **HTTP history**: the last responses to the requests you send from .http
+  files, without credential headers such as Authorization and Cookie.
+- **AI data**: the models and server address you choose, your limits, this
+  month's usage, the agent's changes waiting for your review, and the
+  commands you chose to always allow.
+- **Widget data**: the names of your projects and recent
+  projects are shared with Tide's widget and Siri and Shortcuts actions
+  through an app group on your device. Live Activities show the status of a
+  run or deploy, such as its command or project name, on your Lock Screen
+  and in the Dynamic Island.
+- **Credentials**, kept in the iOS Keychain: your Git name, email and
+  access token (also used for GitHub when you sign in to it), the Remote
+  server address and token, the tokens and keys you add for deploying
+  (Netlify, Vercel, Cloudflare, a Firebase service account) and Render
+  deploy hook URLs, your SSH servers and their saved commands,
+  passwords and private keys, your database servers and their passwords,
+  GitLab and Bitbucket tokens, your AI provider API keys, and environment variables you keep as
+  secrets. SSH private keys never leave your device, and secret environment
+  variables are never written to your projects.
 
 Tide's storage is included in your device backups (iCloud Backup or a
 computer) like any app's data. Deleting Tide deletes it from the device.
@@ -51,25 +69,39 @@ handle it under their own privacy policies.
 | Feature | What is sent | To |
 |---|---|---|
 | Git (clone, pull, push) | Your repository's contents and history, your Git name and email (in commits), and your access token | The Git host you use, e.g. GitHub |
+| GitHub (sign-in, repositories, pull requests, issues, Actions) | Your GitHub access token, and what you do on those screens: comments, reviews, new issues and pull requests, merges, re-runs | GitHub (github.com and api.github.com) |
+| GitLab and Bitbucket | Your token (and for Bitbucket, your Atlassian account email), and what you do on those screens: comments, approvals, merges, new issues | GitLab (gitlab.com or the GitLab address you enter) or Bitbucket (bitbucket.org and api.bitbucket.org) |
+| Deploy | The files in the folder you publish, the token you added for that service, and settings such as the site or project name and, for previews, the Git branch's name. For Firebase, a sign-in token signed on your device with your service account key; the key itself isn't sent. | The service you choose: GitHub Pages, Firebase Hosting (Google), Netlify, Vercel, Cloudflare Pages, or Render (only a request to your deploy hook) |
+| SSH and SFTP | Your username and password or a signature made with your key (the private key itself is never sent), your terminal input, the files you open, save or copy, and the traffic of ports you forward | The server you add, and the jump host you connect through, if any. They're run by you or whoever gave you access, not by me. |
+| HTTP and WebSocket requests (.http files) | The requests and messages you send, including any headers and bodies you write, and any environment variables you put in them | The address in each request |
+| AI features (agent, inline completions, Fix with AI, explaining errors, commit messages) | Your API key, your questions, and the code each feature works on. Inline completions: the file's path and the text around the cursor, as you type. Agent: the project's file list and package.json scripts, the files it reads or searches (which can include files such as .env), and the output of the commands it runs. Fix with AI and explaining errors: the code or terminal output involved, and the files it points at or imports. Commit messages: the changes being committed. | The provider you set up, under your own account and its terms: Anthropic (api.anthropic.com), OpenAI (api.openai.com), Google Gemini (generativelanguage.googleapis.com), OpenRouter (openrouter.ai, which passes requests to the model's provider), or the Ollama, LM Studio or other server whose address you enter |
+| Databases (PostgreSQL, MySQL, Redis and MongoDB) | Your username and password, and the queries and changes you make | The database server you add, directly or through the SSH server you choose. It's run by you or whoever gave you access, not by me. |
 | npm and pip installs | Names and versions of the packages you install | The npm registry (registry.npmjs.org) and PyPI (pypi.org) |
 | Packages screen | Your search terms, and the names of installed packages to check for updates | The npm registry and PyPI |
 | Remote mode | Your project's files, your terminal input, and the server token | The Tide server whose address you enter. That server is run by you or your organisation, not by me. |
 | Linked folders | Files copied to and from the folder | The folder you choose, e.g. in iCloud Drive or another app |
-| Previews | Whatever the page you preview requests | The page's own server and anything it loads |
+| Previews | Whatever the page you preview requests | The page's own server and anything it loads (the React project template, for example, loads React from esm.sh) |
+| Offline docs | Which documentation you download (e.g. JavaScript, Python) | DevDocs by freeCodeCamp (devdocs.io and documents.devdocs.io) |
 | Sharing and "Open in Tide" | The files you choose | The app or service you pick in the share sheet, or from the app that sent them |
 {: .sent }
 
+Tide's AI features do nothing until you set up a provider. Once you do,
+inline completions are on and send text as you type, until you turn them off
+in **Settings > AI assistant**. Requests go straight from your device to the
+provider and never pass through me.
+
 Code you run in Tide's terminal or previews can make its own network
-requests; that is up to the code you run.
+requests; that is up to the code you run. Lua, Ruby and PHP run on your
+device, like JavaScript and Python, and SQLite databases you open or query
+are read and changed on your device only. Environment variables are given
+to the programs you run on your device. The developer tools, OpenAPI
+viewer, Mermaid diagrams and PDF export work on your device; an exported
+PDF goes only where you send it from the share sheet.
 
-## Purchases
+## Ratings
 
-Tide Pro and extensions are sold through the App Store. Payments are
-handled entirely by Apple. I don't receive your name, Apple Account or
-payment details; the App Store only tells Tide which products your account
-owns. Subscriptions are managed and cancelled in your Apple Account
-settings. If Tide asks you to rate it, the rating prompt is shown by
-Apple, and I only see ratings and reviews as published on the App Store.
+Every feature in Tide is free, and Tide has no in-app purchases. If Tide
+asks you to rate it, the rating prompt is shown by Apple, and I only see ratings and reviews as published on the App Store.
 
 ## Crash reports (optional, off by default)
 
